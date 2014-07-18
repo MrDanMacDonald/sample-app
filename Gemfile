@@ -54,6 +54,8 @@ gem 'unique_generator', '~> 1.0'
 
 gem 'pry', '~> 0.9.12.6'
 
+gem 'bootstrap-sass'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
