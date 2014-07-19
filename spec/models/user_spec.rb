@@ -75,4 +75,12 @@ describe User do
     end
   end
 
+  describe "remember_token" do 
+    let(:user) {create(:user)}
+    it "should not be blank" do
+      user
+      expect(user.remember_token).not_to be_blank 
+    end
+  end
+
 end
