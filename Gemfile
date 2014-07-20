@@ -6,6 +6,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-spring'
   gem 'spring-commands-rspec'
+  gem 'better_errors'
 end
 
 group :test do

@@ -1,12 +1,29 @@
 <header class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-  <div class="container-fluid">
+  <div class="container">
     <div class="navbar-header">
        <%= link_to "Brand", root_path, class: "navbar-brand", id: "logo"%>
     </div>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
-        <li><%= link_to "Sign in", '#' %></li>
+          <% if signed_in? %>
+            <li><%= link_to "Users", '#' %></li>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Account <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= current_user %>">Profile</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Settings</a></li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to "Sign out", signout_path, method: "delete" %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Sign in", signin_path %></li>
+          <% end %>
       </ul>
   </div>
 </header>
