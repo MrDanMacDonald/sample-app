@@ -57,6 +57,10 @@ gem 'pry', '~> 0.9.12.6'
 
 gem 'bootstrap-sass'
 
+gem 'will_paginate'
+
+gem 'bootstrap-will_paginate'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
