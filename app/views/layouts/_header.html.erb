@@ -7,14 +7,14 @@
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
           <% if signed_in? %>
-            <li><%= link_to "Users", '#' %></li>
+            <li><%= link_to "Users", users_path %></li>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Account <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
               <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= current_user %>">Profile</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Settings</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= edit_user_path(current_user) %>">Settings</a></li>
                 <li class="divider"></li>
                 <li>
                   <%= link_to "Sign out", signout_path, method: "delete" %>
