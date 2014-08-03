@@ -20,6 +20,10 @@ module SessionsHelper
     @current_user ||= User.find_by(remember_token: remember_token)
   end
 
+  def current_user?(user)
+    user == current_user
+  end
+
   def sign_out
     current_user.update_attribute(:remember_token, User.digest(User.new_remember_token))
     cookies.delete(:remember_token)
@@ -33,6 +37,11 @@ module SessionsHelper
 
   def store_location
     session[:return_to] = request.url if request.get?
+  end
+
+  def signed_in_user 
+    store_location
+    redirect_to signin_path, notice: "Please sign in." unless signed_in?
   end
 
 end

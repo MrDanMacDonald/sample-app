@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: :destroy
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
+  before_filter :correct_user, only: [:edit, :update]
+  before_filter :admin_user, only: :destroy
 
   def index
     @users = User.paginate(page: params[:page])
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       sign_in @user
-      flash[:notice] = "Welcome #{@user.name}!"
+      flash[:success] = "Welcome #{@user.name}!"
       redirect_to @user
     else 
       render :new
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      flash[:notice] = "Profile updated"
+      flash[:success] = "Profile updated"
       redirect_to @user
     else
       render :edit
@@ -36,11 +36,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def destroy
     @user = User.find(params[:id]).destroy
-    flash[:notice] = "User deleted"
+    flash[:success] = "User deleted"
     redirect_to users_path
   end
 
@@ -48,11 +49,6 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
-
-  def signed_in_user 
-    store_location
-    redirect_to signin_path, notice: "Please sign in." unless signed_in?
   end
 
   def correct_user 
