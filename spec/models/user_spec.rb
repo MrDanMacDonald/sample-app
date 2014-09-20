@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe User do 
+  let(:user) {create(:user)}
 
   it "has a valid factory" do
     expect(build(:user)).to be_valid
@@ -16,10 +17,10 @@ describe User do
   end
 
   describe "invalid email" do 
-    let!(:user) {build(:user)}
-    let!(:user_1) {create(:user, email: 'foo@bar.com')}
+    let(:user_1) {create(:user, email: 'foo@bar.com')}
 
     it "is invalid with a duplicate email" do 
+      user_1
       expect(build(:user, email: 'foo@bar.com')).to have(1).errors_on(:email)
     end
     it "is invalid with invalid format" do
@@ -30,7 +31,7 @@ describe User do
       end
     end
     it "is case sensitive" do
-      expect(build(:user, email: 'FOO@BAR.COM')).not_to be_valid
+      expect(build(:user, email: 'FOO@BAR.COM')).to have(0).errors_on(:email)
     end
     it "is valid" do
       addresses = %w[user@foo.COM U_S-ER@f.b.org a+b@baz.cn]
@@ -54,14 +55,12 @@ describe User do
   end
 
   describe "return value of authenticate method" do 
-    let(:user) {create(:user)}
-
-    describe "with invalid password" do 
+    context "with invalid password" do 
       it "should not return the user" do 
         expect(User.find_by(email: 'wrong_email@bar.com')).not_to eq user
       end
     end
-    describe "with valid password" do 
+    context "with valid password" do 
       it "should return the user" do
         expect(User.find_by(email: user.email)).to eq user
       end
@@ -69,10 +68,24 @@ describe User do
   end
 
   describe "remember_token" do 
-    let(:user) {create(:user)}
     it "should not be blank" do
       user
       expect(user.remember_token).not_to be_blank 
+    end
+  end
+
+  describe "following" do 
+    let(:user) {create(:user, email: 'foo@baz.com')}
+    let(:other_user) {create(:user)}
+    before do
+      user.follow!(other_user)
+    end
+    it "should be_following other_user" do 
+      expect(user.following?(other_user)).to be_true
+    end
+
+    it "followed_users should include other_user" do 
+      expect(user.followed_users).to include(other_user)
     end
   end
 
