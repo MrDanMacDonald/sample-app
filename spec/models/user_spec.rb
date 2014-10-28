@@ -79,14 +79,25 @@ describe User do
     let(:other_user) {create(:user)}
     before do
       user.follow!(other_user)
+      other_user.follow!(user)
     end
     it "should be_following other_user" do 
       expect(user.following?(other_user)).to be_true
     end
 
-    it "followed_users should include other_user" do 
-      expect(user.followed_users).to include(other_user)
+    it "following should include other_user" do 
+      expect(user.following).to include(other_user)
+    end
+
+    it "should unfollow other_user" do 
+      user.unfollow!(other_user)
+      expect(user.following).not_to include(other_user)
+    end
+
+    it "followers should include other user" do 
+      expect(user.followers).to include(other_user)
     end
   end
+
 
 end
