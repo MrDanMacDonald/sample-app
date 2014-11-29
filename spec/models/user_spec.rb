@@ -82,7 +82,7 @@ describe User do
       other_user.follow!(user)
     end
     it "should be_following other_user" do 
-      expect(user.following?(other_user)).to be_true
+      expect(user.following?(other_user)).to eq(true)
     end
 
     it "following should include other_user" do 

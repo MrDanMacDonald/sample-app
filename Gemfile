@@ -6,6 +6,8 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-spring'
   gem 'spring-commands-rspec'
+  gem 'rspec-collection_matchers'
+  gem 'rubocop', require: false
   gem 'better_errors'
 end
 

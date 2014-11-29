@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def following?(other_user) 
-    active_relationships.where(followed_id: other_user.id)
+    following.include?(other_user)
   end
 
   def follow!(other_user)
